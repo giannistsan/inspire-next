@@ -17,7 +17,9 @@
 # along with INSPIRE; if not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
-from invenio_records.signals import before_record_index
+from invenio_records.signals import (before_record_index,
+                                     before_record_insert,
+                                     before_record_update)
 
 
 @before_record_index.connect
@@ -106,3 +108,19 @@ def match_valid_experiments(recid, json, *args, **kwargs):
                     # If the experiment cannot be matched it is considered valid
                     facet_experiment = exp.get("experiment")
                 exp.update({"facet_experiment": facet_experiment})
+
+
+# @before_record_insert.connect
+# @before_record_update.connect
+# def dois_clean(sender, *args, **kwargs):
+#     dois = []
+#     new_l = []
+#     if 'dois' in sender:
+#         for element in sender['dois']:
+#             if 'value' in element:
+#                 dois.append(element['value'])
+#                 if element['value'] in dois:
+#                     new_l.append(element)
+#                     break
+
+#     sender['dois'] = new_l
