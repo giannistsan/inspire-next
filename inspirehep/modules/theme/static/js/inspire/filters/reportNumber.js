@@ -20,17 +20,26 @@
 * as an Intergovernmental Organization or submit itself to any jurisdiction.
 */
 
-define(['js/inspire/filters/doi',
-        'js/inspire/filters/arxivInfo',
-        'js/inspire/filters/reportNumber',
-        'js/inspire/filters/abstract',
-        'angular-sanitize'], 
-        function(doiFilter, arxivInfoFilter, reportNumberFilter, abstractFilter){
-          var app = angular.module('inspire.filters', ['ngSanitize'])
-            .filter('doi', doiFilter)
-            .filter('arxivInfo', arxivInfoFilter)
-            .filter('reportNumber', reportNumberFilter)
-            .filter('abstract', abstractFilter);
-          // return the module
-          return app;
-    });
+define([], function() {
+  /**
+  * AngularJS filter to display report numbers
+  */
+  function reportNumberFilter() {
+    return function(input) {
+      if (!input) {
+        return '';
+      }
+      var reportNumbers = '';
+      if (input['report_numbers']) {
+        for (var i=0; i < input['report_numbers'].length; i++) {
+          if (input['report_numbers'][i].value) {
+            reportNumbers = 'Report number: ' + input['report_numbers'][i].value;
+          }
+        } 
+      }
+      return  reportNumbers;
+    }
+  }
+  
+  return reportNumberFilter;
+});

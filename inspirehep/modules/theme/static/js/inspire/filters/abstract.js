@@ -20,17 +20,40 @@
 * as an Intergovernmental Organization or submit itself to any jurisdiction.
 */
 
-define(['js/inspire/filters/doi',
-        'js/inspire/filters/arxivInfo',
-        'js/inspire/filters/reportNumber',
-        'js/inspire/filters/abstract',
-        'angular-sanitize'], 
-        function(doiFilter, arxivInfoFilter, reportNumberFilter, abstractFilter){
-          var app = angular.module('inspire.filters', ['ngSanitize'])
-            .filter('doi', doiFilter)
-            .filter('arxivInfo', arxivInfoFilter)
-            .filter('reportNumber', reportNumberFilter)
-            .filter('abstract', abstractFilter);
-          // return the module
-          return app;
-    });
+define([], function() {
+  /**
+  * AngularJS filter to display abstract information
+  */
+  function abstractFilter() {
+    return function(input, is_brief) {
+      if (!input) {
+        return '';
+      }
+      var number_of_words;
+      var abstract_displayed = false;
+      var arxiv_abstract = '';
+      if (is_brief) {
+        number_of_words = 0;
+      }  else {
+        number_of_words = 100;
+      }
+      if (input['abstracts']) {
+        for (var i=0; i < input['abstracts'].length; i++) {
+          if(!(input['abstracts'][i].source == 'arXiv')) {
+            abstract_displayed = true;
+          } else {
+            arxiv_abstract = input['abstracts'][i].value;
+          }
+          if(!abstract_displayed && arxiv_abstract) {
+            abstract_displayed = true;
+          }
+        }
+      }
+      
+      //return eprint + '<br/>' + categories;
+    }
+  }
+
+  
+  return abstractFilter;
+});

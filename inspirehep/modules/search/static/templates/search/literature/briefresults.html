@@ -24,16 +24,17 @@
                     </span>
                   </div>
                   <div class="row">
-                    <div class="col-md-12 ">
-                      Journal info goes here
+                    <div ng-bind-html='record.display.publication_info_line' class="col-md-12"> 
                     </div>
                     <div ng-bind-html='record.metadata.dois | doi' class="col-md-12 ">
                     </div>
-                    <div>
-                      Arxiv info
+                    <div ng-bind-html='record.metadata | arxivInfo : true' class="col-md-12 ">
                     </div>
                   </div>
-                  Abstract here.
+                  <div ng-bind-html='record.metadata | reportNumber' class="col-md-12 ">
+                  </div>
+                  <div ng-bind-html='record.metadata | abstract : true' class="col-md-12 ">
+                  </div>
                 </div>
               </div>
             </div>
